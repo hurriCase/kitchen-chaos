@@ -8,16 +8,51 @@ public class Player : MonoBehaviour
 {
     [SerializeField] private float _moveSpeed = 5f;
     [SerializeField] private GameInput _gameInput;
+    [SerializeField] private LayerMask _counterLayerMask;
     private bool _isWalking;
+    private Vector3 _lastInteractDirection;
     private GameObject _playerVisual;
     private GameObject _bodyGameObject;
     private GameObject _headGameObject;
+    
     private void Start()
     {
         _bodyGameObject = GameObject.Find("PlayerVisual/Body");
         _headGameObject = GameObject.Find("PlayerVisual/Head");
     }
     private void Update()
+    {
+        HandleMovement();
+        HandleInteractions();
+    }
+    
+    public bool IsWalking()
+    {
+        return _isWalking;
+    }
+
+    private void HandleInteractions()
+    {
+        Vector2 inputVector = _gameInput.GetMovementVectorNormalized();
+        Vector3 moveDirection = new Vector3(inputVector.x, 0f, inputVector.y);
+        const float interactDistance = 2f;
+
+        if (moveDirection != Vector3.zero)
+        {
+            _lastInteractDirection = moveDirection;
+        }
+        
+        bool isInteract = Physics.Raycast(transform.position, _lastInteractDirection, out RaycastHit raycastHit, interactDistance, _counterLayerMask);
+        
+        if (isInteract)
+        {
+            if (raycastHit.transform.TryGetComponent(out ClearCounter clearCounter))
+            {
+                clearCounter.Interact();
+            }
+        }
+    }
+    private void HandleMovement()
     {
         Vector2 inputVector = _gameInput.GetMovementVectorNormalized();
         Vector3 moveDirection = new Vector3(inputVector.x, 0f, inputVector.y);
@@ -65,10 +100,5 @@ public class Player : MonoBehaviour
         
         float rotateSpeed = 10f;
         transform.forward = Vector3.Slerp(transform.forward, moveDirection, Time.deltaTime * rotateSpeed);
-    }
-    
-    public bool IsWalking()
-    {
-        return _isWalking;
     }
 }
