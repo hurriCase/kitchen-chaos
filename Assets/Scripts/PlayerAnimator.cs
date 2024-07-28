@@ -5,16 +5,16 @@ using UnityEngine;
 
 public class PlayerAnimator : MonoBehaviour
 {
-    private Animator animator;
-    private const string IS_WALKING = "IsWalking";
-    [SerializeField] private Player player; 
+    private Animator _animator;
+    private const string IsWalking = "IsWalking";
+    [SerializeField] private Player _player; 
     private void Awake()
     {
-        animator = GetComponent<Animator>();
+        _animator = GetComponent<Animator>();
     }
 
     private void Update()
     {
-        animator.SetBool(IS_WALKING, player.IsWalking());
+        _animator.SetBool(IsWalking, _player.IsWalking());
     }
 }

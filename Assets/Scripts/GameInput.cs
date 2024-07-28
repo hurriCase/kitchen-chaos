@@ -8,12 +8,12 @@ public class GameInput : MonoBehaviour
 {
     public event EventHandler OnInteractAction;
     
-    private PlayerInputActions playerInputActions;
+    private PlayerInputActions _playerInputActions;
     private void Awake()
     {
-        playerInputActions = new PlayerInputActions();
-        playerInputActions.Player.Enable();
-        playerInputActions.Player.Interact.performed += InteractOnperformed;
+        _playerInputActions = new PlayerInputActions();
+        _playerInputActions.Player.Enable();
+        _playerInputActions.Player.Interact.performed += InteractOnperformed;
     }
 
     private void InteractOnperformed(InputAction.CallbackContext obj)
@@ -23,7 +23,7 @@ public class GameInput : MonoBehaviour
 
     public Vector2 GetMovementVectorNormalized()
     {
-        Vector2 inputVector = playerInputActions.Player.Move.ReadValue<Vector2>();
+        Vector2 inputVector = _playerInputActions.Player.Move.ReadValue<Vector2>();
 
         inputVector = inputVector.normalized;
         
