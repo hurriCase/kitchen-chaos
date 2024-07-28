@@ -62,23 +62,9 @@ public class Player : MonoBehaviour
 
     private void GameInputOnInteractAction(object sender, EventArgs e)
     {
-        Vector2 inputVector = _gameInput.GetMovementVectorNormalized();
-        Vector3 moveDirection = new Vector3(inputVector.x, 0f, inputVector.y);
-        const float interactDistance = 2f;
-
-        if (moveDirection != Vector3.zero)
+        if (_selectedCounter != null)
         {
-            _lastInteractDirection = moveDirection;
-        }
-        
-        bool isInteract = Physics.Raycast(transform.position, _lastInteractDirection, out RaycastHit raycastHit, interactDistance, _counterLayerMask);
-        
-        if (isInteract)
-        {
-            if (raycastHit.transform.TryGetComponent(out ClearCounter clearCounter))
-            {
-                clearCounter.Interact();
-            }
+            _selectedCounter.Interact();
         }
     }
 
