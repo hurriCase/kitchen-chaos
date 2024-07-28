@@ -151,11 +151,13 @@ public class Player : MonoBehaviour
         if (canMove) transform.position += moveDirection * moveDistance;
 
         _isWalking = moveDirection != Vector3.zero;
-        
-        float rotateSpeed = 10f;
-        transform.forward = Vector3.Slerp(transform.forward, moveDirection, Time.deltaTime * rotateSpeed);
+
+        if (_isWalking)
+        {
+            float rotateSpeed = 10f;
+            transform.forward = Vector3.Slerp(transform.forward, moveDirection, Time.deltaTime * rotateSpeed);
+        }
     }
-}
 
     private void SetSelectedCounter(ClearCounter selectedCounter)
     {
