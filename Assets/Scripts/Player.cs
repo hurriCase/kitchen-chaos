@@ -15,12 +15,31 @@ public class Player : MonoBehaviour
     private GameObject _bodyGameObject;
     private GameObject _headGameObject;
     
+    private bool _isPaused;
     private void Start()
     {
         _gameInput.OnInteractAction += GameInputOnInteractAction;
         
         _bodyGameObject = GameObject.Find("PlayerVisual/Body");
         _headGameObject = GameObject.Find("PlayerVisual/Head");
+    }
+
+    private void OnEnable()
+    {
+        Application.focusChanged += ApplicationOnfocusChanged;
+    }
+
+    private void OnDisable()
+    {
+        Application.focusChanged -= ApplicationOnfocusChanged;
+    }
+
+    private void ApplicationOnfocusChanged(bool hasFocus)
+    {
+        _isPaused = !hasFocus;
+
+        if (_isPaused) Time.timeScale = 0f;
+        else Time.timeScale = 1f;
     }
 
     private void GameInputOnInteractAction(object sender, EventArgs e)
