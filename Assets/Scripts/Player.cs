@@ -17,12 +17,13 @@ public class Player : MonoBehaviour
     [SerializeField] private float _moveSpeed = 5f;
     [SerializeField] private GameInput _gameInput;
     [SerializeField] private LayerMask _counterLayerMask;
-    private bool _isWalking;
-    private Vector3 _lastInteractDirection;
+    
     private GameObject _playerVisual;
     private GameObject _bodyGameObject;
     private GameObject _headGameObject;
     private ClearCounter _selectedCounter;
+    private Vector3 _lastInteractDirection;
+    private bool _isWalking;
     private bool _isPaused;
 
     private void Awake()
@@ -106,6 +107,7 @@ public class Player : MonoBehaviour
         } 
         else SetSelectedCounter(null);
     }
+    
     private void HandleMovement()
     {
         Vector2 inputVector = _gameInput.GetMovementVectorNormalized();
