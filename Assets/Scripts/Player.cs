@@ -11,7 +11,7 @@ public class Player : MonoBehaviour, IKitchenObjectParent
 
     public class OnSelectedCounterChangedEventArgs : EventArgs
     {
-        public ClearCounter SelectedCounter;
+        public BaseCounter SelectedCounter;
     }
     
     [SerializeField] private float _moveSpeed = 5f;
@@ -23,7 +23,7 @@ public class Player : MonoBehaviour, IKitchenObjectParent
     private GameObject _playerVisual;
     private GameObject _bodyGameObject;
     private GameObject _headGameObject;
-    private ClearCounter _selectedCounter;
+    private BaseCounter _selectedCounter;
     private Vector3 _lastInteractDirection;
     private bool _isWalking;
     private bool _isPaused;
@@ -101,9 +101,9 @@ public class Player : MonoBehaviour, IKitchenObjectParent
                 _counterLayerMask
             ))
         {
-            if (raycastHit.transform.TryGetComponent(out ClearCounter clearCounter))
+            if (raycastHit.transform.TryGetComponent(out BaseCounter baseCounter))
             {
-                if (clearCounter != _selectedCounter) SetSelectedCounter(clearCounter);
+                if (baseCounter != _selectedCounter) SetSelectedCounter(baseCounter);
             }
             else SetSelectedCounter(null);
         } 
@@ -163,7 +163,7 @@ public class Player : MonoBehaviour, IKitchenObjectParent
         }
     }
 
-    private void SetSelectedCounter(ClearCounter selectedCounter)
+    private void SetSelectedCounter(BaseCounter selectedCounter)
     {
         _selectedCounter = selectedCounter;
         
