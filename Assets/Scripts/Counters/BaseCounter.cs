@@ -7,8 +7,8 @@ public class BaseCounter : MonoBehaviour, IKitchenObjectParent
     [SerializeField] private Transform _counterTopPoint;
     
     private KitchenObject _kitchenObject;
-    
     public virtual void Interact(Player player) { }
+    public virtual void InteractAlternate() { }
 
     public Transform GetKitchenObjectFollowTransform()
     {
