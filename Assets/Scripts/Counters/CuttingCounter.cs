@@ -3,17 +3,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CuttingCounter : BaseCounter
+public class CuttingCounter : BaseCounter, IHasProgress
 {
     public event EventHandler OnCut;
-    public event EventHandler<OnCuttingProgressChangedEventArgs> OnCuttingProgressChanged;
 
-    public class OnCuttingProgressChangedEventArgs : EventArgs
-    {
-        public float ProgressNormalized;
-    }
+    public event EventHandler<IHasProgress.OnCuttingProgressChangedEventArgs> OnCuttingProgressChanged;
     
-    [SerializeField] private CuttingRecipeSO[] _cuttingRecipes;
+    [SerializeField] private CuttingRecipeSO[] _cuttingRecipesSO;
     private int _cuttingProgress;
     
     
@@ -25,11 +21,16 @@ public class CuttingCounter : BaseCounter
         {
             player.GetKitchenObject().SetKitchenObjectParent(this);
             _cuttingProgress = 0;
-            OnCuttingProgressChanged?.Invoke(this, new OnCuttingProgressChangedEventArgs()
+            OnCuttingProgressChanged?.Invoke(this, new IHasProgress.OnCuttingProgressChangedEventArgs()
             {
                 ProgressNormalized = _cuttingProgress
             });
         }
+        else if (player.HasKitchenObject() && player.GetKitchenObject().TryGetPlate(out var plateKitchenObject) &&
+                 HasKitchenObject())
+            if (plateKitchenObject.TryAddIngredient(GetKitchenObject().GetKitchenObjectSO()))
+                GetKitchenObject().DestroySelf();
+            else {}
         
         else if (player.HasKitchenObject() is false && HasKitchenObject()) 
             GetKitchenObject().SetKitchenObjectParent(player);
@@ -46,7 +47,7 @@ public class CuttingCounter : BaseCounter
         
         _cuttingProgress++;
         
-        OnCuttingProgressChanged?.Invoke(this, new OnCuttingProgressChangedEventArgs()
+        OnCuttingProgressChanged?.Invoke(this, new IHasProgress.OnCuttingProgressChangedEventArgs()
         {
             ProgressNormalized = (float)_cuttingProgress / cuttingRecipe.maxCutsToSlice
         });
@@ -56,7 +57,7 @@ public class CuttingCounter : BaseCounter
         if (_cuttingProgress != cuttingRecipe.maxCutsToSlice) return;
         
         var slicedKitchenObjectSO = GetOutputFromInput(kitchenObject);
-        Destroy(GetKitchenObject().gameObject);
+        GetKitchenObject().DestroySelf();
         KitchenObject.SetKitchenObject(slicedKitchenObjectSO, this);
     }
 
@@ -80,7 +81,7 @@ public class CuttingCounter : BaseCounter
 
     private CuttingRecipeSO GetCuttingRecipeSO(KitchenObjectSO kitchenObjectSO)
     {
-        foreach (CuttingRecipeSO cuttingRecipe in _cuttingRecipes)
+        foreach (var cuttingRecipe in _cuttingRecipesSO)
             if (cuttingRecipe.input == kitchenObjectSO)
                 return cuttingRecipe;
 
