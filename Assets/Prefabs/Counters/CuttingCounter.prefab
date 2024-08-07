@@ -178,6 +178,8 @@ GameObject:
   - component: {fileID: 1682569446616942626}
   - component: {fileID: 4617250297259248639}
   - component: {fileID: 5028314825219620722}
+  - component: {fileID: 6387562437439769735}
+  - component: {fileID: 8370874910657426528}
   m_Layer: 6
   m_Name: ProgressBar
   m_TagString: Untagged
@@ -269,6 +271,33 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
+--- !u!114 &6387562437439769735
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 643199120901618469}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f7bf42cc0369bad4e914f1c02f5a25ad, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _mode: 3
+--- !u!114 &8370874910657426528
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 643199120901618469}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 986d3afda25b01b438514814c2bb3b34, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _progressBar: {fileID: 5432723916317613714}
+  _gameObject: {fileID: 7930678562835403103}
 --- !u!1001 &4699825538164317842
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -384,7 +413,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _counterTopPoint: {fileID: 5931936605370917495}
-  _cuttingRecipes:
+  _cuttingRecipesSO:
   - {fileID: 11400000, guid: 357aa4635d346894588c0ed9dfa62aa0, type: 2}
   - {fileID: 11400000, guid: da39083bafeac1941b3458d1c2c6dc7f, type: 2}
   - {fileID: 11400000, guid: 218619092201076419a5908f1b3113ad, type: 2}
